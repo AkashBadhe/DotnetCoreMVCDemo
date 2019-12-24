@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "EmployeeNotFound";
+}
+
+<div class="alert alert-danger">
+    <h4>
+        404 Not found
+    </h4>
+    <hr />
+    <h5>
+        Employee with id @Model not found.
+    </h5>
+</div>
+<a asp-controller="Employee" asp-action="Index" class="btn btn-success">Go to List</a>
+

@@ -1,0 +1,68 @@
+﻿@model EmployeeEditViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    var photoPath = "~/Images/" + (Model.ExistingPhotoPath ?? "images.jpg");
+}
+
+<h1>Create</h1>
+
+<h4>Employee</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form enctype="multipart/form-data" asp-action="Edit">
+            <input asp-for="Id" hidden />
+            <input asp-for="ExistingPhotoPath" hidden />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Salary" class="control-label"></label>
+                <input asp-for="Salary" class="form-control" />
+                <span asp-validation-for="Salary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Department" class="control-label"></label>
+                <select asp-for="Department"
+                        asp-items="Html.GetEnumSelectList<Department>()"
+                        class="form-control">
+                    <option value="">Please select</option>
+                </select>
+                <span asp-validation-for="Department" class="text-danger">
+
+                </span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Photo" class="control-label"></label>
+                <div>
+                    <input asp-for="Photo" class="form-control custom-file-input" />
+                    <label class="custom-file-label file-label-custom">Choose File...</label>
+                </div>
+            </div>
+            <img src="@photoPath" asp-append-version="true"/>
+
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+                <a asp-controller="Employee" asp-action="Index" class="btn btn-secondary" >Cancle</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/fileUpload.js"></script>
+}
