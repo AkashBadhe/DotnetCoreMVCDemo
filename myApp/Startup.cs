@@ -2,10 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,7 +32,15 @@ namespace myApp
         {
             services.AddDbContextPool<AppDBContext>(
                 options => options.UseSqlServer(_config.GetConnectionString("DefalutConnection")));
-            services.AddMvc(options => options.EnableEndpointRouting = false);
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+                options.Password.RequireNonAlphanumeric = false
+            ).AddEntityFrameworkStores<AppDBContext>();
+
+            services.AddMvc(options => {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+                options.EnableEndpointRouting = false;
+            });
             services.AddScoped<IEmployeeRepository, SqlEmployeeRepository>();
         }
 
@@ -47,6 +58,7 @@ namespace myApp
 
 
             app.UseStaticFiles();
+            app.UseAuthentication();
             //app.UseMvcWithDefaultRoute();
             app.UseMvc(routes =>
             {

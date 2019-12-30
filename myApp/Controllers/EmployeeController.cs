@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,15 +25,16 @@ namespace myApp.Controllers
             this.hostingEnvironment = hostingEnvironment;
         }
         // GET: Employee
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View(_employeeRepository.GetEmployees());
         }
 
         // GET: Employee/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
-            throw new InvalidCastException();
             Employee employee = _employeeRepository.GetEmployee(id.Value);
             if(employee != null)
             {
