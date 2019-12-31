@@ -5,6 +5,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20191218171627_SQLMigraion.cs" />
+    <Compile Remove="Migrations\20191218171627_SQLMigraion.Designer.cs" />
+    <Compile Remove="Migrations\20191218175435_SeedData.cs" />
+    <Compile Remove="Migrations\20191218175435_SeedData.Designer.cs" />
+    <Compile Remove="Migrations\20191218180015_NewSeed.cs" />
+    <Compile Remove="Migrations\20191218180015_NewSeed.Designer.cs" />
+    <Compile Remove="Migrations\20191220143218_pathnme.cs" />
+    <Compile Remove="Migrations\20191220143218_pathnme.Designer.cs" />
+    <Compile Remove="Migrations\20191228033100_AddingIdentity.cs" />
+    <Compile Remove="Migrations\20191228033100_AddingIdentity.Designer.cs" />
+    <Compile Remove="Migrations\20191230112734_ExtendedIdentity.cs" />
+    <Compile Remove="Migrations\20191230112734_ExtendedIdentity.Designer.cs" />
+    <Compile Remove="Migrations\20191230113356_ExtendedMigration.cs" />
+    <Compile Remove="Migrations\20191230113356_ExtendedMigration.Designer.cs" />
+    <Compile Remove="Migrations\20191230122009_newMigration.cs" />
+    <Compile Remove="Migrations\20191230122009_newMigration.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\default.html" />
   </ItemGroup>
 
@@ -22,6 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
