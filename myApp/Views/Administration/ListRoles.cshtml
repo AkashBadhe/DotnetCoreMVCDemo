@@ -15,12 +15,22 @@
                     RoleId: @role.Id
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">@roleName</h5>
-                    <a asp-action="Edit" asp-
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <h5 class="card-title">@role.Name</h5>
+                    <a asp-action="Edit" asp-controller="Administration" class="btn btn-primary" />
+                    <a asp-action="Delete" asp-controller="Administration" asp-route-id="@role.Id" class="btn btn-danger" />
                 </div>
             </div>
         }
+    }
+    else
+    {
+        <div class="card">
+            <div class="card-header">
+                No Roles available. To create role click on create button.
+            </div>
+            <div class="card-body">
+                <a asp-action="Create" asp-controller="Administration" class="btn btn-primary" />
+            </div>
+        </div>
     }
 </div>

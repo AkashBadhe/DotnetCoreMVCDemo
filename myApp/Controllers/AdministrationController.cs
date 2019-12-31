@@ -31,7 +31,7 @@ namespace myApp.Controllers
                 var result = await roleManager.CreateAsync(newRole);
                 if (result.Succeeded)
                 {
-                    RedirectToAction("Index", "Employee");
+                    RedirectToAction("ListView", "Administration");
                 }
                 else
                 {
@@ -49,6 +49,12 @@ namespace myApp.Controllers
         {
             var roles = roleManager.Roles;
             return View(roles);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(string id, string roleName)
+        {
+            return View();
         }
     }
 }
