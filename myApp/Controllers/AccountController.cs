@@ -26,6 +26,35 @@ namespace myApp.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, City = model.City };
+                var result = await userManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    if(signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    {
+                        return RedirectToAction("ListUsers", "Administration");
+                    }
+                    await signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Employee");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+
+                }
+            }
+            return View(model);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
@@ -46,31 +75,6 @@ namespace myApp.Controllers
             {
                 return Json($"{email} is already in use");
             }
-        }
-
-
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> Register(RegisterViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, City = model.City };
-                var result = await userManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
-                {
-                    await signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Employee");
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-
-                }
-            }
-            return View(model);
         }
 
         [HttpGet]
@@ -102,6 +106,74 @@ namespace myApp.Controllers
                 ModelState.AddModelError("", "Invalid login attempt.");
             }
             return View(model);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
+        [Authorize(Roles ="Admin")]
+        [HttpGet]
+        public async Task<IActionResult> Edit(string userId)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+
+            var newUser = new EditUserViewModel()
+            {
+                Email = user.Email,
+                City = user.City,
+                Id = user.Id
+            };
+
+            return View(newUser);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(EditUserViewModel model)
+        {
+            var user = await userManager.FindByIdAsync(model.Id);
+
+            user.Email = model.Email;
+            user.City = model.City;
+
+            var result = await userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("ListUsers", "Administration");
+            }
+            else
+            {
+                foreach(var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+            return View(user);
+        }
+
+        [HttpPost]
+        [HttpGet]
+        [Authorize(Roles ="Admin")]
+        public async Task<ActionResult> Delete(string userId)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+            var result = await userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("ListUsers", "Administration");
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+            return View(user);
         }
     }
 }

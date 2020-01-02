@@ -31,7 +31,7 @@ namespace myApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<AppDBContext>(
-                options => options.UseSqlServer(_config.GetConnectionString("DefalutConnection")));
+                options => options.UseSqlServer(_config.GetConnectionString("EmployeeDBConnection")));
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
                 options.Password.RequireNonAlphanumeric = false
             ).AddEntityFrameworkStores<AppDBContext>();

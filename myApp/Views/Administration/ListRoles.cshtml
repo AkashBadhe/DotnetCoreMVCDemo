@@ -6,6 +6,7 @@
 <h1>Roles</h1>
 
 <div>
+    <a asp-controller="Administration" asp-action="Create" class="btn btn-primary">Create Role</a>
     @if (Model.Any())
     {
         foreach (var role in Model)
@@ -16,8 +17,8 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">@role.Name</h5>
-                    <a asp-action="Edit" asp-controller="Administration" class="btn btn-primary" />
-                    <a asp-action="Delete" asp-controller="Administration" asp-route-id="@role.Id" class="btn btn-danger" />
+                    <a asp-action="EditRole" asp-controller="Administration" asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
+                    <a asp-action="DeleteRole" asp-controller="Administration" asp-route-id="@role.Id" class="btn btn-danger">Delete</a>
                 </div>
             </div>
         }
@@ -29,7 +30,7 @@
                 No Roles available. To create role click on create button.
             </div>
             <div class="card-body">
-                <a asp-action="Create" asp-controller="Administration" class="btn btn-primary" />
+                <a asp-action="Create" asp-controller="Administration" class="btn btn-primary">Create</a>
             </div>
         </div>
     }
