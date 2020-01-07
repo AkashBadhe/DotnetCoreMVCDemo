@@ -1,4 +1,4 @@
-﻿@model  IEnumerable<IdentityRole>
+﻿@model IEnumerable<IdentityRole>
 @{
     ViewData["Title"] = "View";
 }
@@ -18,7 +18,18 @@
                 <div class="card-body">
                     <h5 class="card-title">@role.Name</h5>
                     <a asp-action="EditRole" asp-controller="Administration" asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
-                    <a asp-action="DeleteRole" asp-controller="Administration" asp-route-id="@role.Id" class="btn btn-danger">Delete</a>
+                    <form method="post" asp-action="Delete" asp-controller="Administration" asp-route-roleId="@role.Id" class="inline-form">
+                        <span id="delteSpan_@role.Id">
+                            <a class="btn btn-danger" onclick="confirmDelete('@role.Id', false)">Delete</a>
+                        </span>
+                        <span id="confirmDeleteSpan_@role.Id" style="display:none">
+                            Are you sure you want to delte this role
+                            <button type="submit" class="btn btn-danger">Yes</button>
+                            <a class="btn btn-primary" onclick="confirmDelete('@role.Id', true)">No</a>
+                        </span>
+
+                    </form>
+
                 </div>
             </div>
         }
@@ -35,3 +46,7 @@
         </div>
     }
 </div>
+
+@section Scripts{
+    <script src="~/js/customScript.js"></script>
+}

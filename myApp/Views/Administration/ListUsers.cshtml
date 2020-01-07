@@ -17,8 +17,17 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">@user.City</h5>
-                    <a asp-action="Edit" asp-controller="Account" asp-route-userId="@user.Id" class="btn btn-primary">Edit</a>
-                    <a asp-action="Delete" asp-controller="Account" asp-route-userId="@user.Id" class="btn btn-danger">Delete</a>
+                    <form asp-action="Delete" asp-controller="Account" asp-route-userId="@user.Id" method="post" class="inline-form">
+                        <a asp-action="EditUser" asp-controller="Administration" asp-route-userId="@user.Id" class="btn btn-primary">Edit</a>
+                        <span id="deleteSpan_@user.Id">
+                            <a class="btn btn-danger" id="deleteAccount" onclick="confirmDelete('@user.Id', false)">Delete</a>
+                        </span>
+                        <span id="confirmDeleteSpan_@user.Id" style="display:none">
+                            <span>Are you sure you want to delte the user.</span>
+                            <input type="submit" value="Yes" class="btn btn-danger" />
+                            <a class="btn btn-primary" id="cancleDelete" onclick="confirmDelete('@user.Id', true)">No</a>
+                        </span>
+                    </form>
                 </div>
             </div>
         }
@@ -33,6 +42,10 @@
                 <a asp-action="Register" asp-controller="Account" class="btn btn-primary">Create</a>
             </div>
         </div>
+    }
+
+    @section Scripts{
+        <script src="~/js/customScript.js"></script>
     }
 </div>
 

@@ -10,3 +10,7 @@ label.custom-file-label.file-label-custom {
     width: 100%;
     top: -38px;
 }
+
+.inline-form{
+    display: inline-block;
+}
